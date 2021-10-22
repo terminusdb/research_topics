@@ -5,7 +5,7 @@ storage and search of versioned graphs.
 
 # Data Structures
 
-Which data-structures support the following operations on persistent
+Which data-structures support the following operations on versioned
 graphs with large numbers of commits efficiently.
 
 We view an edge as a tuple (s,p,o) for s∈S p∈P o∈O for countable
