@@ -87,7 +87,7 @@ Efficient techniques of treating the subgraphs as psuedo-nodes for
 network analysis have not yet been developed and could be an
 interesting problem.
 
-## Patch manipluation
+## Patch manipulation
 
 Patches are important for understanding what updates are taking place,
 especially in the presence of concurrency. When patches happen at
