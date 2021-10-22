@@ -12,8 +12,8 @@ We view an edge as a tuple (s,p,o) for s∈S p∈P o∈O for countable
 alphabets S (node), P (edge) , V (value) where O := S⊕V a disjoint
 union between values and nodes.
 
-1. Search by (s,?,?), (S,P,?), (?,P,O) and (?,?,O)
-2. Check cardinality of (S,P,?), (S,?,?), (?,P,O), (?,?,O)
+1. Search by (s,?,?), (s,p,?), (?,p,o) and (?,?,o)
+2. Check cardinality of (s,p,?), (s,?,?), (?,p,o), (?,?,o)
 3. search additions, deletions at a commit as with 1
 4. add / delete edges
 
