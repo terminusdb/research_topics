@@ -42,8 +42,9 @@ commit →  ◯ - ◯ - ◯ - ◯ - ◯
 
 ```
 
-Over compressions of delta-stacks, where should these delta
-compressions be introduced?
+Where should these delta compressions be introduced to maximise
+performance with different usage profiles? How should we characterise
+these profiles?
 
 ### Persistent Radix Tree
 
