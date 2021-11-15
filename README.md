@@ -102,3 +102,44 @@ commutivity of patches.
   structures.
 - What sub-space of JSON style can be equiped with CRDT patch logic to
   speed up checks of commutivity?
+
+## Shrinking delta dictionaries
+As described above, we use a delta compression strategy, where a range
+of data layers can be turned into one single data layer for more
+efficient querying. This compression is transparent. we ensure that
+the resulting compressed layer behaves the same way as the original
+range. In particular, we ensure that any value that previously existed
+(even if it has since been deleted) will be assigned the same id when
+it appears in a triple, regardless of whether you use the original
+layer stack or the delta layer as the basis of your operation. This
+ensures we can do delta compression at the same time as operations on
+the graph are occuring, as we can be sure that newly built layers will
+still work with our delta layer.
+
+One disadvantage of this approach is that we never throw away a
+value. If we did throw away unused values, then when a new layer tries
+to reuse these values, it'd allocate a new ID if built on top of a
+delta-compressed layer, but reuse the existing ID if built on top of
+the original layer stack. Therefore, because we wish to retain
+equivalent behavior, we need to keep around old, unused values. This
+means that if a particular database has a lot of changes in data
+(rather than a lot of changes in links), over time, this database will
+accrue a lot of unused dictionary entries.
+
+Contrast this with a squash operation, where we build a completely new
+layer without taking care to be compatible. In this case, we can
+actually throw away old values, and build new dictionaries where these
+values simply do not occur, resulting in smaller dictionaries. But
+squashes cannot be done concurrently with graph modifications. They
+have to stop the world while they're built, preventing new layers from
+being constructed on top of the old data until that operation is done.
+
+It may be worthwhile to see if there's some way to create a delta
+layer which does omit unused dictionary values, but which can still be
+built concurrently. Possible solutions:
+- have special layers where particular ids are permanently released
+- Use squash and rebuild any new concurrently built layers afterwards
+
+A related problem is that over time IDs get larger, requiring more
+storage to hold them. It would be good if it was possible to reorder
+IDs such that the most used IDs are small.
